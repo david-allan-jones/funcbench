@@ -1,0 +1,26 @@
+{
+  "name": "funcbench",
+  "version": "0.0.1",
+  "description": "A library for benchmarking JavaScript and TypeScript functions.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/david-allan-jones/funcbench.git"
+  },
+  "keywords": [
+    "benchmarking",
+    "profiling",
+    "javascript",
+    "typescript"
+  ],
+  "author": "david-allan-jones",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/david-allan-jones/funcbench/issues"
+  },
+  "homepage": "https://github.com/david-allan-jones/funcbench#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ]
+}
