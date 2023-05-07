@@ -3,9 +3,13 @@
       "module": "commonjs",
       "target": "es2015",
       "declaration": true,
-      "outDir": "./dist"
+      "outDir": "./dist",
+      "strict": true
     },
     "include": [
       "src/**/*"
-    ]
+    ],
+    "typescript": {
+      "version": "4.5.4"
+    }
 }
