@@ -1,6 +1,6 @@
 import { Units, convertFromMilliseconds } from './utils/time'
 
-type Input<T> = { name: string, value: T }
+type Input<Args> = { name: string, args: Args }
 
 type BuilderOptions<InputType> = {
     functions?: Function[],
@@ -19,37 +19,37 @@ type Stats = {
 }
 type ProfilerResult = Stats[][][]
 
-type Profiler<InputType> = {
+type Profiler<Args> = {
     run: () => ProfilerResult,
     $params: {
         funcList: Function[],
-        inputList: Input<InputType>[],
+        inputList: Input<Args>[],
         sampleList: number[],
         units: Units
     }
 }
 
-type ProfilerBuilder<InputType> = {
-    addFuncs: (funcs: Function | Function[]) => ProfilerBuilder<InputType>,
-    addInputs: (inputs: Input<InputType> | Input<InputType>[]) => ProfilerBuilder<InputType>,
-    addSamples: (samples: number | number[]) => ProfilerBuilder<InputType>,
-    build: () => Profiler<InputType>
-    removeFuncs: (indices: number | number[]) => ProfilerBuilder<InputType>,
-    removeInputs: (indices: number | number[]) => ProfilerBuilder<InputType>,
-    removeSamples: (indices: number | number[]) => ProfilerBuilder<InputType>,
-    setFuncs: (funcs: Function[]) => ProfilerBuilder<InputType>,
-    setInputs: (inputs: Input<InputType>[]) => ProfilerBuilder<InputType>,
-    setSamples: (samples: number[]) => ProfilerBuilder<InputType>,
-    setUnits: (units: Units) => ProfilerBuilder<InputType>,
+type ProfilerBuilder<Args extends any[]> = {
+    addFuncs: (funcs: Function | Function[]) => ProfilerBuilder<Args>,
+    addInputs: (inputs: Input<Args> | Input<Args>[]) => ProfilerBuilder<Args>,
+    addSamples: (samples: number | number[]) => ProfilerBuilder<Args>,
+    build: () => Profiler<Args>
+    removeFuncs: (indices: number | number[]) => ProfilerBuilder<Args>,
+    removeInputs: (indices: number | number[]) => ProfilerBuilder<Args>,
+    removeSamples: (indices: number | number[]) => ProfilerBuilder<Args>,
+    setFuncs: (funcs: Function[]) => ProfilerBuilder<Args>,
+    setInputs: (inputs: Input<Args>[]) => ProfilerBuilder<Args>,
+    setSamples: (samples: number[]) => ProfilerBuilder<Args>,
+    setUnits: (units: Units) => ProfilerBuilder<Args>,
 }
 
-const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
+const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
     let funcList: Function[] = options?.functions ?? []
-    let inputList: Input<T>[] = options?.inputs ?? []
+    let inputList: Input<Args>[] = options?.inputs ?? []
     let sampleList: number[] = options?.samples ?? []
     let units: Units = options?.units ?? 'ms'
 
-    const addFuncs = function (this: ProfilerBuilder<T>, funcs: Function | Function[]) {
+    const addFuncs = function (this: ProfilerBuilder<Args>, funcs: Function | Function[]) {
         if (typeof funcs === 'function') {
             funcList.push(funcs)
             return this
@@ -60,7 +60,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         return this
     }
 
-    const addInputs = function (this: ProfilerBuilder<T>, inputs: Input<T> | Input<T>[]) {
+    const addInputs = function (this: ProfilerBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
         if (!Array.isArray(inputs)) {
             inputList.push(inputs)
             return this
@@ -71,7 +71,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         return this
     }
 
-    const addSamples = function (this: ProfilerBuilder<T>, samples: number | number[]) {
+    const addSamples = function (this: ProfilerBuilder<Args>, samples: number | number[]) {
         if (typeof samples === 'number') {
             sampleList.push(samples)
             return this
@@ -109,7 +109,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
     })
 
 
-    const removeFuncs = function (this: ProfilerBuilder<T>, indices: number | number[]) {
+    const removeFuncs = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             funcList.splice(indices, 1)
             return this
@@ -122,7 +122,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         return this
     } 
 
-    const removeInputs = function (this: ProfilerBuilder<T>, indices: number | number[]) {
+    const removeInputs = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             inputList.splice(indices, 1)
             return this
@@ -135,7 +135,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         return this
     }
 
-    const removeSamples = function (this: ProfilerBuilder<T>, indices: number | number[]) {
+    const removeSamples = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             sampleList.splice(indices, 1)
             return this
@@ -148,22 +148,22 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         return this
     }
 
-    const setFuncs = function (this: ProfilerBuilder<T>, funcs: Function[]) {
+    const setFuncs = function (this: ProfilerBuilder<Args>, funcs: Function[]) {
         funcList = funcs
         return this
     } 
 
-    const setInputs = function (this: ProfilerBuilder<T>, inputs: Input<T>[]) {
+    const setInputs = function (this: ProfilerBuilder<Args>, inputs: Input<Args>[]) {
         inputList = inputs
         return this
     } 
 
-    const setSamples = function (this: ProfilerBuilder<T>, samples: number[]) {
+    const setSamples = function (this: ProfilerBuilder<Args>, samples: number[]) {
         sampleList = samples
         return this
     } 
 
-    const setUnits = function (this: ProfilerBuilder<T>, value: Units) {
+    const setUnits = function (this: ProfilerBuilder<Args>, value: Units) {
         units = value
         return this
     }
@@ -193,7 +193,7 @@ const profiler = <T>(options?: BuilderOptions<T>): ProfilerBuilder<T> => {
         const times: number[] = []
         for (let j = 0; j < sampleList[s]; j++) {
             const t0 = performance.now()
-            funcList[f](inputList[i].value)
+            funcList[f](...inputList[i].args)
             times.push(performance.now() - t0)
         }
         let mean = times.reduce((a: number, v: number) => a + v, 0) / times.length
