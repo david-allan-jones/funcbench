@@ -1,4 +1,4 @@
-# [funcbench](https://www.npmjs.com/package/package-name)
+# [funcbench](https://www.npmjs.com/package/funcbench)
 `funcbench` is a TypeScript library that helps you measure the performance of functions by executing them with different inputs and sample sizes. The main goal of the profiler is to provide developers with a tool for identifying performance bottlenecks and understanding the performance characteristics of their code, and to do while providing type safety for the entire lifespan.
 
 ## **Features**
