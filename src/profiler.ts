@@ -17,7 +17,7 @@ type Stats = {
     sigmaSquared: number | null,
     sigma: number | null,
 }
-type ProfilerResult = Stats[][][]
+type ProfilerResult = Stats[]
 
 type Profiler<Args> = {
     run: () => ProfilerResult,
@@ -84,14 +84,14 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
 
     const build = () => ({
         run: () => {
-            let result: ProfilerResult = createResult()
+            let result = []
             let f = 0
             while (f < funcList.length) {
                 let i = 0
                 while (i < inputList.length) {
                     let s = 0
                     while (s < sampleList.length) {
-                        result[f][i][s] = createStats(f, i, s)
+                        result.push(createStats(f, i, s))
                         s++
                     }
                     i++
@@ -167,38 +167,18 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         units = value
         return this
     }
-    
-    function createResult(): ProfilerResult {
-        const result: ProfilerResult = []
-        for (let x = 0; x < funcList.length; x++) {
-            result[x] = [];
-            for (let y = 0; y < inputList.length; y++) {
-              result[x][y] = [];
-              for (let z = 0; z < sampleList.length; z++) {
-                result[x][y][z] = {
-                    funcName: funcList[x].name,
-                    inputName: inputList[y].name,
-                    samples: sampleList[z],
-                    mean: null,
-                    sigmaSquared: null,
-                    sigma: null
-                };
-              }
-            }
-          }
-        return result
-    }
 
     function createStats(f: number, i: number, s: number): Stats {
         const times: number[] = []
         for (let j = 0; j < sampleList[s]; j++) {
             const t0 = performance.now()
-            funcList[f](...inputList[i].args)
+            const clonedInput = structuredClone(inputList[i].args)
+            funcList[f](...clonedInput)
             times.push(performance.now() - t0)
         }
         let mean = times.reduce((a: number, v: number) => a + v, 0) / times.length
         const squaredDiffs = times.map(t => (t - mean)**2)
-        let sigmaSquared = squaredDiffs.reduce((a: number, v: number) => a + v, 0) / (times.length - 1)
+        let sigmaSquared = squaredDiffs.reduce((a: number, v: number) => a + v, 0) / times.length
         mean = convertFromMilliseconds(mean, units)
         sigmaSquared = convertFromMilliseconds(sigmaSquared, units)
 
