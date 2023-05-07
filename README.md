@@ -19,7 +19,7 @@ npm install funcbench
 First import the profiler function from the library:
 
 ```typescript
-import { profiler } from 'path/to/funcbench';
+import { profiler } from 'funcbench';
 ```
 To create a new profiler, call the `profiler` function and chain the builder methods to configure it:
 
