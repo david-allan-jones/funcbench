@@ -9,12 +9,18 @@
 - Chainable builder pattern for easy configuration
 
 ## **Installation**
-To use the funcbench profiler, simply import the profiler function from the library:
+To use the funcbench profiler, first install the package from npm
+
+```bash
+npm install funcbench
+```
+## **Usage**
+
+First import the profiler function from the library:
 
 ```typescript
 import { profiler } from 'path/to/funcbench';
 ```
-## **Usage**
 To create a new profiler, call the `profiler` function and chain the builder methods to configure it:
 
 ```typescript
@@ -35,14 +41,14 @@ const myProfiler = profiler<[number, number]({
     inputs: [{ name: '0 and 1', args: [0, 1] }],
     samples: [100],
     units: 's'
-});
+}).build();
 ```
 Then, run the profiler to get the results:
 
 ```javascript
 const results = myProfiler.run();
 ```
-The results variable will contain an array of performance statistics for each function, input, and sample size combination. The first index of the array corresponds to the index of the function, the second to the input argument, and the third to the sample size.
+The results variable will contain an array of performance statistics for each function, input, and sample size combination. 
 
 ## **API Reference** 
 
