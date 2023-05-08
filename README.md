@@ -5,7 +5,7 @@
 - Profile multiple functions with different input arguments
 - Customize the number of samples per function and input
 - Calculate mean execution time, variance, and standard deviation
-- Choose between multiple time units (e.g., milliseconds, microseconds, nanoseconds)
+- Choose between multiple time units (e.g., seconds, milliseconds and nanoseconds)
 - Chainable builder pattern for easy configuration
 
 ## **Installation**
@@ -26,7 +26,7 @@ To create a new profiler, call the `profiler` function and chain the builder met
 ```typescript
 const addNumbers = (a: number, b: number) => a + b
 
-const myProfiler = profiler<[number, number]()
+const myProfiler = profiler<[number, number]>()
     .addFuncs(addNumbers)
     .addInputs({ name: '0 and 1', args: [0, 1] })
     .addSamples(100)
@@ -36,7 +36,7 @@ const myProfiler = profiler<[number, number]()
 You can also pass an optional configuration object to the `profiler` function for initial settings:
 
 ```typescript
-const myProfiler = profiler<[number, number]({
+const myProfiler = profiler<[number, number]>({
     functions: [addNumbers],
     inputs: [{ name: '0 and 1', args: [0, 1] }],
     samples: [100],
@@ -55,6 +55,8 @@ The results variable will contain an array of performance statistics for each fu
 ### `profiler<Args>(options?: BuilderOptions<Args>)`
 
 Creates a new `ProfilerBuilder` object. The optional `BuilderOptions` object can be used to set the initial configuration:
+
+### `BuilderOptions<Args>`
 
 | Property Name | Type                  | Description                                                               |
 |---------------|-----------------------|---------------------------------------------------------------------------|
@@ -88,6 +90,19 @@ The profiler instance, once built, exposes the following methods:
 | Method Name | Parameters | Description                                  |
 |-------------|------------|----------------------------------------------|
 | `run`         | none       | Runs the profiler and returns the results as a `ProfilerResult` object. |
+
+### `ProfilerResult`
+
+An object that contains an array of `Stats` objects (one for each function/input/sample combination). A `Stats` has the following properties.
+
+| Property Name | Type                  | Description                                                               |
+|---------------|-----------------------|---------------------------------------------------------------------------|
+| `funcName`        | `string`    | The name of the function passed in. If you passed in an anonymous function, this will be an empty string `""`.
+| `inputName`       | `string`         | The string representing the name of the input passed in during the build process.
+| `samples`         | `number` | The sample size of this dataset.
+| `mean`         | `number` | The mean of all runs of the functions in the sample set for a given input.
+| `sigma`         | `number` | The variance of all runs of the functions in the sample set for a given input.
+| `sigmaSquared`         | `number` | The standard deviation of all runs of the functions in the sample set for a given input.
 
 ## **Contact**
 
