@@ -1,4 +1,5 @@
 import { Units, convertFromMilliseconds } from './utils/time'
+import { typeNarrowPush } from './utils/type'
 
 type Input<Args> = { name: string, args: Args }
 type Func<Args extends any[]> = (...args: Args) => unknown
@@ -51,35 +52,17 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
     let units: Units = options?.units ?? 'ms'
 
     const addFuncs = function (this: ProfilerBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
-        if (typeof funcs === 'function') {
-            funcList.push(funcs)
-            return this
-        }
-        for (let i = 0; i < funcs.length; i++) {
-            funcList.push(funcs[i])
-        }
+        typeNarrowPush<Func<Args>>(funcs, funcList)
         return this
     }
 
     const addInputs = function (this: ProfilerBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
-        if (!Array.isArray(inputs)) {
-            inputList.push(inputs)
-            return this
-        }
-        for (let i = 0; i < inputs.length; i++) {
-            inputList.push(inputs[i])
-        }
+        typeNarrowPush<Input<Args>>(inputs, inputList)
         return this
     }
 
     const addSamples = function (this: ProfilerBuilder<Args>, samples: number | number[]) {
-        if (typeof samples === 'number') {
-            sampleList.push(samples)
-            return this
-        }
-        for (let i = 0; i < samples.length; i++) {
-            sampleList.push(samples[i])
-        }
+        typeNarrowPush<number>(samples, sampleList)
         return this
     }
 
