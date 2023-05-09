@@ -1,49 +1,13 @@
 import { Units, convertFromMilliseconds } from './utils/time'
 import { typeNarrowPush } from './utils/type'
+import {
+    BuilderOptions,
+    Func,
+    Input,
+    ProfilerBuilder,
+    Stats
+} from './types/profiler'
 
-type Input<Args> = { name: string, args: Args }
-type Func<Args extends any[]> = (...args: Args) => unknown
-
-type BuilderOptions<Args extends any[]> = {
-    functions?: Func<Args>[],
-    samples?: number[],
-    inputs?: Input<Args>[],
-    units?: Units
-}
-
-type Stats = {
-    funcName: string,
-    inputName: string,
-    samples: number,
-    mean: number | null,
-    sigmaSquared: number | null,
-    sigma: number | null,
-}
-type ProfilerResult = Stats[]
-
-type Profiler<Args extends any[]> = {
-    run: () => ProfilerResult,
-    $params: {
-        funcList: Func<Args>[],
-        inputList: Input<Args>[],
-        sampleList: number[],
-        units: Units
-    }
-}
-
-type ProfilerBuilder<Args extends any[]> = {
-    addFuncs: (funcs: Func<Args> | Func<Args>[]) => ProfilerBuilder<Args>,
-    addInputs: (inputs: Input<Args> | Input<Args>[]) => ProfilerBuilder<Args>,
-    addSamples: (samples: number | number[]) => ProfilerBuilder<Args>,
-    build: () => Profiler<Args>
-    removeFuncs: (indices: number | number[]) => ProfilerBuilder<Args>,
-    removeInputs: (indices: number | number[]) => ProfilerBuilder<Args>,
-    removeSamples: (indices: number | number[]) => ProfilerBuilder<Args>,
-    setFuncs: (funcs: Func<Args>[]) => ProfilerBuilder<Args>,
-    setInputs: (inputs: Input<Args>[]) => ProfilerBuilder<Args>,
-    setSamples: (samples: number[]) => ProfilerBuilder<Args>,
-    setUnits: (units: Units) => ProfilerBuilder<Args>,
-}
 
 const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
     let funcList: Func<Args>[] = options?.functions ?? []
