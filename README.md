@@ -101,8 +101,8 @@ An object that contains an array of `Stats` objects (one for each function/input
 | `inputName`       | `string`         | The string representing the name of the input passed in during the build process.
 | `samples`         | `number` | The sample size of this dataset.
 | `mean`         | `number` | The mean of all runs of the functions in the sample set for a given input.
-| `sigma`         | `number` | The variance of all runs of the functions in the sample set for a given input.
-| `sigmaSquared`         | `number` | The standard deviation of all runs of the functions in the sample set for a given input.
+| `sigma`         | `number` | The standard deviation of all runs of the functions in the sample set for a given input.
+| `sigmaSquared`         | `number` | The variance of all runs of the functions in the sample set for a given input.
 
 ## **Contact**
 
