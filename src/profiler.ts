@@ -1,11 +1,12 @@
 import { Units, convertFromMilliseconds } from './utils/time'
 
 type Input<Args> = { name: string, args: Args }
+type Func<Args extends any[]> = (...args: Args) => unknown
 
-type BuilderOptions<InputType> = {
-    functions?: Function[],
+type BuilderOptions<Args extends any[]> = {
+    functions?: Func<Args>[],
     samples?: number[],
-    inputs?: Input<InputType>[],
+    inputs?: Input<Args>[],
     units?: Units
 }
 
@@ -19,10 +20,10 @@ type Stats = {
 }
 type ProfilerResult = Stats[]
 
-type Profiler<Args> = {
+type Profiler<Args extends any[]> = {
     run: () => ProfilerResult,
     $params: {
-        funcList: Function[],
+        funcList: Func<Args>[],
         inputList: Input<Args>[],
         sampleList: number[],
         units: Units
@@ -30,26 +31,26 @@ type Profiler<Args> = {
 }
 
 type ProfilerBuilder<Args extends any[]> = {
-    addFuncs: (funcs: Function | Function[]) => ProfilerBuilder<Args>,
+    addFuncs: (funcs: Func<Args> | Func<Args>[]) => ProfilerBuilder<Args>,
     addInputs: (inputs: Input<Args> | Input<Args>[]) => ProfilerBuilder<Args>,
     addSamples: (samples: number | number[]) => ProfilerBuilder<Args>,
     build: () => Profiler<Args>
     removeFuncs: (indices: number | number[]) => ProfilerBuilder<Args>,
     removeInputs: (indices: number | number[]) => ProfilerBuilder<Args>,
     removeSamples: (indices: number | number[]) => ProfilerBuilder<Args>,
-    setFuncs: (funcs: Function[]) => ProfilerBuilder<Args>,
+    setFuncs: (funcs: Func<Args>[]) => ProfilerBuilder<Args>,
     setInputs: (inputs: Input<Args>[]) => ProfilerBuilder<Args>,
     setSamples: (samples: number[]) => ProfilerBuilder<Args>,
     setUnits: (units: Units) => ProfilerBuilder<Args>,
 }
 
 const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
-    let funcList: Function[] = options?.functions ?? []
+    let funcList: Func<Args>[] = options?.functions ?? []
     let inputList: Input<Args>[] = options?.inputs ?? []
     let sampleList: number[] = options?.samples ?? []
     let units: Units = options?.units ?? 'ms'
 
-    const addFuncs = function (this: ProfilerBuilder<Args>, funcs: Function | Function[]) {
+    const addFuncs = function (this: ProfilerBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
         if (typeof funcs === 'function') {
             funcList.push(funcs)
             return this
@@ -148,7 +149,7 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     }
 
-    const setFuncs = function (this: ProfilerBuilder<Args>, funcs: Function[]) {
+    const setFuncs = function (this: ProfilerBuilder<Args>, funcs: Func<Args>[]) {
         funcList = funcs
         return this
     } 
