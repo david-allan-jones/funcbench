@@ -1,5 +1,5 @@
 import { Units, convertFromMilliseconds } from './utils/time'
-import { typeNarrowPush } from './utils/type'
+import { typeNarrowPush, typeNarrowRemove } from './utils/type'
 import {
     BuilderOptions,
     Func,
@@ -54,41 +54,17 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
 
 
     function removeFuncs(this: ProfilerBuilder<Args>, indices: number | number[]) {
-        if (typeof indices === 'number') {
-            funcList.splice(indices, 1)
-            return this
-        }
-        const indicesClone = [...indices]
-        indicesClone.sort((a, b) => b - a)
-        for (let i = 0; i < indices.length; i++) {
-            funcList.splice(indicesClone[i], 1)
-        }
+        typeNarrowRemove<Func<Args>>(indices, funcList)
         return this
     } 
 
     function removeInputs(this: ProfilerBuilder<Args>, indices: number | number[]) {
-        if (typeof indices === 'number') {
-            inputList.splice(indices, 1)
-            return this
-        }
-        const indicesClone = [...indices]
-        indicesClone.sort((a, b) => b - a)
-        for (let i = 0; i < indices.length; i++) {
-            inputList.splice(indicesClone[i], 1)
-        }
+        typeNarrowRemove<Input<Args>>(indices, inputList)
         return this
     }
 
     function removeSamples(this: ProfilerBuilder<Args>, indices: number | number[]) {
-        if (typeof indices === 'number') {
-            sampleList.splice(indices, 1)
-            return this
-        }
-        const indicesClone = [...indices]
-        indicesClone.sort((a, b) => b - a)
-        for (let i = 0; i < indices.length; i++) {
-            sampleList.splice(indicesClone[i], 1)
-        }
+        typeNarrowRemove<number>(indices, sampleList)
         return this
     }
 
