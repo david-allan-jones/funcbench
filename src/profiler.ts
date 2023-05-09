@@ -34,10 +34,10 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return {
             run: () => {
                 let result: Stats[] = []
-                funcList.forEach(func => {
+                sampleList.forEach(sampleSize => {
                     inputList.forEach(input => {
-                        sampleList.forEach(sampleSize => {
-                            result.push(createStats(func, input, sampleSize))
+                        funcList.forEach(func => {
+                            result.push(createStats(sampleSize, input, func))
                         })
                     })
                 })
@@ -88,7 +88,7 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     }
 
-    function createStats(func: Func<Args>, input: Input<Args>, sampleSize: number): Stats {
+    function createStats(sampleSize: number, input: Input<Args>, func: Func<Args>): Stats {
         const times: number[] = []
         for (let j = 0; j < sampleSize; j++) {
             const t0 = performance.now()
@@ -103,9 +103,9 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         sigmaSquared = convertFromMilliseconds(sigmaSquared, units)
 
         return {
-            funcName: func.name,
-            inputName: input.name,
             samples: sampleSize,
+            inputName: input.name,
+            funcName: func.name,
             mean,
             sigmaSquared,
             sigma: Math.sqrt(sigmaSquared)
