@@ -69,17 +69,17 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
     }
 
     function setFuncs(this: ProfilerBuilder<Args>, funcs: Func<Args>[]) {
-        funcList = funcs
+        funcList = [...funcs]
         return this
     } 
 
     function setInputs(this: ProfilerBuilder<Args>, inputs: Input<Args>[]) {
-        inputList = inputs
+        inputList = structuredClone(inputs)
         return this
     } 
 
     function setSamples(this: ProfilerBuilder<Args>, samples: number[]) {
-        sampleList = samples
+        sampleList = [...samples]
         return this
     } 
 
