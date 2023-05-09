@@ -15,43 +15,45 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
     let sampleList: number[] = options?.samples ?? []
     let units: Units = options?.units ?? 'ms'
 
-    const addFuncs = function (this: ProfilerBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
+    function addFuncs(this: ProfilerBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
         typeNarrowPush<Func<Args>>(funcs, funcList)
         return this
     }
 
-    const addInputs = function (this: ProfilerBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
+    function addInputs(this: ProfilerBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
         typeNarrowPush<Input<Args>>(inputs, inputList)
         return this
     }
 
-    const addSamples = function (this: ProfilerBuilder<Args>, samples: number | number[]) {
+    function addSamples(this: ProfilerBuilder<Args>, samples: number | number[]) {
         typeNarrowPush<number>(samples, sampleList)
         return this
     }
 
-    const build = () => ({
-        run: () => {
-            let result: Stats[] = []
-            funcList.forEach(func => {
-                inputList.forEach(input => {
-                    sampleList.forEach(sampleSize => {
-                        result.push(createStats(func, input, sampleSize))
+    function build () {
+        return {
+            run: () => {
+                let result: Stats[] = []
+                funcList.forEach(func => {
+                    inputList.forEach(input => {
+                        sampleList.forEach(sampleSize => {
+                            result.push(createStats(func, input, sampleSize))
+                        })
                     })
                 })
-            })
-            return result
-        },
-        $params: {
-            funcList,
-            inputList,
-            sampleList,
-            units,
+                return result
+            },
+            $params: {
+                funcList,
+                inputList,
+                sampleList,
+                units,
+            }
         }
-    })
+    }
 
 
-    const removeFuncs = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeFuncs(this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             funcList.splice(indices, 1)
             return this
@@ -64,7 +66,7 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     } 
 
-    const removeInputs = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeInputs(this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             inputList.splice(indices, 1)
             return this
@@ -77,7 +79,7 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     }
 
-    const removeSamples = function (this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeSamples(this: ProfilerBuilder<Args>, indices: number | number[]) {
         if (typeof indices === 'number') {
             sampleList.splice(indices, 1)
             return this
@@ -90,22 +92,22 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     }
 
-    const setFuncs = function (this: ProfilerBuilder<Args>, funcs: Func<Args>[]) {
+    function setFuncs(this: ProfilerBuilder<Args>, funcs: Func<Args>[]) {
         funcList = funcs
         return this
     } 
 
-    const setInputs = function (this: ProfilerBuilder<Args>, inputs: Input<Args>[]) {
+    function setInputs(this: ProfilerBuilder<Args>, inputs: Input<Args>[]) {
         inputList = inputs
         return this
     } 
 
-    const setSamples = function (this: ProfilerBuilder<Args>, samples: number[]) {
+    function setSamples(this: ProfilerBuilder<Args>, samples: number[]) {
         sampleList = samples
         return this
     } 
 
-    const setUnits = function (this: ProfilerBuilder<Args>, value: Units) {
+    function setUnits(this: ProfilerBuilder<Args>, value: Units) {
         units = value
         return this
     }
