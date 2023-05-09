@@ -85,20 +85,14 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
 
     const build = () => ({
         run: () => {
-            let result = []
-            let f = 0
-            while (f < funcList.length) {
-                let i = 0
-                while (i < inputList.length) {
-                    let s = 0
-                    while (s < sampleList.length) {
-                        result.push(createStats(f, i, s))
-                        s++
-                    }
-                    i++
-                }
-                f++
-            }
+            let result: Stats[] = []
+            funcList.forEach(func => {
+                inputList.forEach(input => {
+                    sampleList.forEach(sampleSize => {
+                        result.push(createStats(func, input, sampleSize))
+                    })
+                })
+            })
             return result
         },
         $params: {
@@ -169,12 +163,12 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         return this
     }
 
-    function createStats(f: number, i: number, s: number): Stats {
+    function createStats(func: Func<Args>, input: Input<Args>, sampleSize: number): Stats {
         const times: number[] = []
-        for (let j = 0; j < sampleList[s]; j++) {
+        for (let j = 0; j < sampleSize; j++) {
             const t0 = performance.now()
-            const clonedInput = structuredClone(inputList[i].args)
-            funcList[f](...clonedInput)
+            const clonedInput = structuredClone(input.args)
+            func(...clonedInput)
             times.push(performance.now() - t0)
         }
         let mean = times.reduce((a: number, v: number) => a + v, 0) / times.length
@@ -184,10 +178,10 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
         sigmaSquared = convertFromMilliseconds(sigmaSquared, units)
 
         return {
-            funcName: funcList[f].name,
-            inputName: inputList[i].name,
+            funcName: func.name,
+            inputName: input.name,
+            samples: sampleSize,
             mean,
-            samples: sampleList[s],
             sigmaSquared,
             sigma: Math.sqrt(sigmaSquared)
         }
