@@ -7,6 +7,7 @@ import {
     ProfilerBuilder,
     Stats
 } from './types/profiler'
+import { statsSort } from './utils/stats'
 
 
 const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
@@ -32,7 +33,7 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
 
     function build () {
         return {
-            run: () => {
+            run: (rank?: boolean) => {
                 let result: Stats[] = []
                 sampleList.forEach(sampleSize => {
                     inputList.forEach(input => {
@@ -41,6 +42,9 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
                         })
                     })
                 })
+                if (rank) {
+                    result.sort(statsSort)
+                }
                 return result
             },
             $params: {

@@ -89,7 +89,7 @@ The profiler instance, once built, exposes the following methods:
 
 | Method Name | Parameters | Description                                  |
 |-------------|------------|----------------------------------------------|
-| `run`         | none       | Runs the profiler and returns the results as a `ProfilerResult` object. |
+| `run`         | `rank`: `boolean \| undefined`       | Runs the profiler and returns the results as a `ProfilerResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
 
 ### `ProfilerResult`
 

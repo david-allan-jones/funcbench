@@ -14,14 +14,14 @@ export type Stats = {
     funcName: string,
     inputName: string,
     samples: number,
-    mean: number | null,
+    mean: number,
     sigmaSquared: number | null,
     sigma: number | null,
 }
 
 type ProfilerResult = Stats[]
 type Profiler<Args extends any[]> = {
-    run: () => ProfilerResult,
+    run: (rank?: boolean) => ProfilerResult,
     $params: {
         funcList: Func<Args>[],
         inputList: Input<Args>[],
