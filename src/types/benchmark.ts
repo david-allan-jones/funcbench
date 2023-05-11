@@ -19,11 +19,13 @@ export type Stats = {
     sigma: number | null,
 }
 
+type BenchmarkResult = Stats[]
+
 export type BenchmarkBuilder<Args extends any[]> = {
     addFuncs: (funcs: Func<Args> | Func<Args>[]) => BenchmarkBuilder<Args>,
     addInputs: (inputs: Input<Args> | Input<Args>[]) => BenchmarkBuilder<Args>,
     addSamples: (samples: number | number[]) => BenchmarkBuilder<Args>,
-    run: (rank?: boolean) => Stats[],
+    run: (rank?: boolean) => BenchmarkResult,
     removeFuncs: (indices: number | number[]) => BenchmarkBuilder<Args>,
     removeInputs: (indices: number | number[]) => BenchmarkBuilder<Args>,
     removeSamples: (indices: number | number[]) => BenchmarkBuilder<Args>,

@@ -52,9 +52,9 @@ The results variable will contain an array of performance statistics for each fu
 
 ## **API Reference** 
 
-### `profiler<Args>(options?: BuilderOptions<Args>)`
+### `benchmark<Args>(options?: BuilderOptions<Args>)`
 
-Creates a new `ProfilerBuilder` object. The optional `BuilderOptions` object can be used to set the initial configuration:
+Creates a new `Benchmark` object. The optional `BuilderOptions` object can be used to set the initial configuration:
 
 ### `BuilderOptions<Args>`
 
@@ -65,7 +65,7 @@ Creates a new `ProfilerBuilder` object. The optional `BuilderOptions` object can
 | `samples`       | `Array<number>`         | The number of samples to run for each function and input combination.     |
 | `units`         | `'ns'` \| `'ms'` \| `'s'`                 | The time units to use for the results (e.g., `'ms'` for milliseconds). Defaults to `'ms'`      |
 
-### `ProfilerBuilder`
+### `Benchmark`
 
 The profiler builder exposes several chainable methods for configuring the profiler:
 
@@ -74,24 +74,18 @@ The profiler builder exposes several chainable methods for configuring the profi
 | `addFuncs`          | `funcs: Function \| Function[]`             | Add one or more functions to the profiler.                                               |
 | `addInputs`         | `inputs: Input<Args> \| Input<Args>[]`      | Add one or more input argument sets to the profiler.                                     |
 | `addSamples`        | `samples: number \| number[]`               | Add one or more sample sizes to the profiler.                                            |
-| `build`             | none                                      | Build and return the configured profiler instance.                                       |
 | `removeFuncs`       | `indices: number \| number[]`               | Remove one or more functions from the profiler by their indices.                         |
 | `removeInputs`      | `indices: number \| number[]`               | Remove one or more input argument sets from the profiler by their indices.               |
 | `removeSamples`     | `indices: number \| number[]`               | Remove one or more sample sizes from the profiler by their indices.                      |
+| `run`         | `rank`: `boolean \| undefined`       | Runs the profiler and returns the results as a `BenchmarkResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
 | `setFuncs`          | `funcs: Function[]`                         | Set the functions to profile.                                                            |
 | `setInputs`         | `inputs: Input<Args>[]`                     | Set the input arguments for each function.                                               |
 | `setSamples`       | `samples: number[]`                         | Set the number of samples to run for each function and input combination.                |
 | `setUnits`          | `units: 'ns'` \| `'ms'` \| `'s'`                              | Set the time units to use for the results (e.g., 'ms' for milliseconds).                |
 
-### `Profiler`
+Once you have set up the benchmark how you want it to be, just call the `run` function and handle the result.
 
-The profiler instance, once built, exposes the following methods:
-
-| Method Name | Parameters | Description                                  |
-|-------------|------------|----------------------------------------------|
-| `run`         | `rank`: `boolean \| undefined`       | Runs the profiler and returns the results as a `ProfilerResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
-
-### `ProfilerResult`
+### `BenchmarkResult`
 
 An object that contains an array of `Stats` objects (one for each function/input/sample combination). A `Stats` has the following properties.
 
