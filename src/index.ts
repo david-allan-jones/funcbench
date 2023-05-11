@@ -1,1 +1,1 @@
-export { profiler }from './profiler'
+export { benchmark }from './profiler'

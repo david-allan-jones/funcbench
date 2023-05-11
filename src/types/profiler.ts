@@ -22,12 +22,6 @@ export type Stats = {
 type ProfilerResult = Stats[]
 type Profiler<Args extends any[]> = {
     run: (rank?: boolean) => ProfilerResult,
-    $params: {
-        funcList: Func<Args>[],
-        inputList: Input<Args>[],
-        sampleList: number[],
-        units: Units
-    }
 }
 
 export type ProfilerBuilder<Args extends any[]> = {

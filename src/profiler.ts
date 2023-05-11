@@ -10,7 +10,7 @@ import {
 import { statsSort } from './utils/stats'
 
 
-const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
+const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
     let funcList: Func<Args>[] = options?.functions ?? []
     let inputList: Input<Args>[] = options?.inputs ?? []
     let sampleList: number[] = options?.samples ?? []
@@ -47,12 +47,6 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
                 }
                 return result
             },
-            $params: {
-                funcList,
-                inputList,
-                sampleList,
-                units,
-            }
         }
     }
 
@@ -132,5 +126,5 @@ const profiler = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerB
 }
 
 export {
-    profiler
+    benchmark
 }
