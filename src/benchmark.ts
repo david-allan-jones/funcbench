@@ -31,26 +31,6 @@ const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): Benchmar
         return this
     }
 
-    function build () {
-        return {
-            run: (rank?: boolean) => {
-                let result: Stats[] = []
-                sampleList.forEach(sampleSize => {
-                    inputList.forEach(input => {
-                        funcList.forEach(func => {
-                            result.push(createStats(sampleSize, input, func))
-                        })
-                    })
-                })
-                if (rank) {
-                    result.sort(statsSort)
-                }
-                return result
-            },
-        }
-    }
-
-
     function removeFuncs(this: BenchmarkBuilder<Args>, indices: number | number[]) {
         typeNarrowRemove<Func<Args>>(indices, funcList)
         return this
@@ -110,14 +90,29 @@ const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): Benchmar
         }
     }
 
+    function run(rank?: boolean) {
+        let result: Stats[] = []
+        sampleList.forEach(sampleSize => {
+            inputList.forEach(input => {
+                funcList.forEach(func => {
+                    result.push(createStats(sampleSize, input, func))
+                })
+            })
+        })
+        if (rank) {
+            result.sort(statsSort)
+        }
+        return result
+    }
+
     return {
         addFuncs,
         addInputs,
         addSamples,
-        build,
         removeFuncs,
         removeInputs,
         removeSamples,
+        run,
         setFuncs,
         setInputs,
         setSamples,
