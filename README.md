@@ -77,7 +77,7 @@ The profiler builder exposes several chainable methods for configuring the profi
 | `removeFuncs`       | `indices: number \| number[]`               | Remove one or more functions from the profiler by their indices.                         |
 | `removeInputs`      | `indices: number \| number[]`               | Remove one or more input argument sets from the profiler by their indices.               |
 | `removeSamples`     | `indices: number \| number[]`               | Remove one or more sample sizes from the profiler by their indices.                      |
-| `run`         | `rank`: `boolean \| undefined`       | Runs the profiler and returns the results as a `BenchmarkResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
+| `run`         | `{ rank`: `boolean \| undefined, testCallback: (stats: Stats) => unknown \| unknown }`       | Runs the profiler and returns the results as a `BenchmarkResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
 | `setFuncs`          | `funcs: Function[]`                         | Set the functions to profile.                                                            |
 | `setInputs`         | `inputs: Input<Args>[]`                     | Set the input arguments for each function.                                               |
 | `setSamples`       | `samples: number[]`                         | Set the number of samples to run for each function and input combination.                |

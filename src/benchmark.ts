@@ -5,7 +5,8 @@ import {
     Func,
     Input,
     BenchmarkBuilder,
-    Stats
+    Stats,
+    BenchmarkRunOptions
 } from './types/benchmark'
 import { statsSort } from './utils/stats'
 
@@ -90,16 +91,20 @@ const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): Benchmar
         }
     }
 
-    function run(rank?: boolean) {
+    function run(options?: BenchmarkRunOptions) {
         let result: Stats[] = []
         sampleList.forEach(sampleSize => {
             inputList.forEach(input => {
                 funcList.forEach(func => {
-                    result.push(createStats(sampleSize, input, func))
+                    const stats = createStats(sampleSize, input, func)
+                    if (options?.testCallback) {
+                        options.testCallback(stats)
+                    }
+                    result.push(stats)
                 })
             })
         })
-        if (rank) {
+        if (options?.rank) {
             result.sort(statsSort)
         }
         return result
