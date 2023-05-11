@@ -4,29 +4,29 @@ import {
     BuilderOptions,
     Func,
     Input,
-    ProfilerBuilder,
+    BenchmarkBuilder,
     Stats
-} from './types/profiler'
+} from './types/benchmark'
 import { statsSort } from './utils/stats'
 
 
-const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): ProfilerBuilder<Args> => {
+const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): BenchmarkBuilder<Args> => {
     let funcList: Func<Args>[] = options?.functions ?? []
     let inputList: Input<Args>[] = options?.inputs ?? []
     let sampleList: number[] = options?.samples ?? []
     let units: Units = options?.units ?? 'ms'
 
-    function addFuncs(this: ProfilerBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
+    function addFuncs(this: BenchmarkBuilder<Args>, funcs: Func<Args> | Func<Args>[]) {
         typeNarrowPush<Func<Args>>(funcs, funcList)
         return this
     }
 
-    function addInputs(this: ProfilerBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
+    function addInputs(this: BenchmarkBuilder<Args>, inputs: Input<Args> | Input<Args>[]) {
         typeNarrowPush<Input<Args>>(inputs, inputList)
         return this
     }
 
-    function addSamples(this: ProfilerBuilder<Args>, samples: number | number[]) {
+    function addSamples(this: BenchmarkBuilder<Args>, samples: number | number[]) {
         typeNarrowPush<number>(samples, sampleList)
         return this
     }
@@ -51,37 +51,37 @@ const benchmark = <Args extends any[]>(options?: BuilderOptions<Args>): Profiler
     }
 
 
-    function removeFuncs(this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeFuncs(this: BenchmarkBuilder<Args>, indices: number | number[]) {
         typeNarrowRemove<Func<Args>>(indices, funcList)
         return this
     } 
 
-    function removeInputs(this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeInputs(this: BenchmarkBuilder<Args>, indices: number | number[]) {
         typeNarrowRemove<Input<Args>>(indices, inputList)
         return this
     }
 
-    function removeSamples(this: ProfilerBuilder<Args>, indices: number | number[]) {
+    function removeSamples(this: BenchmarkBuilder<Args>, indices: number | number[]) {
         typeNarrowRemove<number>(indices, sampleList)
         return this
     }
 
-    function setFuncs(this: ProfilerBuilder<Args>, funcs: Func<Args>[]) {
+    function setFuncs(this: BenchmarkBuilder<Args>, funcs: Func<Args>[]) {
         funcList = [...funcs]
         return this
     } 
 
-    function setInputs(this: ProfilerBuilder<Args>, inputs: Input<Args>[]) {
+    function setInputs(this: BenchmarkBuilder<Args>, inputs: Input<Args>[]) {
         inputList = structuredClone(inputs)
         return this
     } 
 
-    function setSamples(this: ProfilerBuilder<Args>, samples: number[]) {
+    function setSamples(this: BenchmarkBuilder<Args>, samples: number[]) {
         sampleList = [...samples]
         return this
     } 
 
-    function setUnits(this: ProfilerBuilder<Args>, value: Units) {
+    function setUnits(this: BenchmarkBuilder<Args>, value: Units) {
         units = value
         return this
     }

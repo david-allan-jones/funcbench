@@ -1,4 +1,4 @@
-import { Stats } from "../types/profiler";
+import { Stats } from "../types/benchmark";
 
 export function statsSort(a: Stats, b: Stats): number {
     if (a.samples < b.samples) {
