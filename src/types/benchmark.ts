@@ -22,7 +22,7 @@ export type Stats = {
 type BenchmarkResult = Stats[]
 
 export type BenchmarkRunOptions = {
-    testCallback: (stats: Stats) => unknown
+    testCallback?: (stats: Stats) => unknown
     rank?: boolean,
 }
 
