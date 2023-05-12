@@ -1,5 +1,5 @@
 # [funcbench](https://www.npmjs.com/package/funcbench)
-`funcbench` is a TypeScript library that helps you measure the performance of functions by executing them with different inputs and sample sizes. The main goal of the profiler is to provide developers with a tool for identifying performance bottlenecks and understanding the performance characteristics of their code, and to do while providing type safety for the entire lifespan.
+`funcbench` is a TypeScript library that helps you measure the performance of functions by executing them with different inputs and sample sizes. The main goal of thid library is to provide developers with a tool for identifying performance bottlenecks and understanding the performance characteristics of their code, and to do while providing type safety for the entire lifespan.
 
 ## **Features**
 - Profile multiple functions with different input arguments
@@ -9,44 +9,44 @@
 - Chainable builder pattern for easy configuration
 
 ## **Installation**
-To use the funcbench profiler, first install the package from npm
+To use the funcbench benchmark, first install the package from npm
 
 ```bash
 npm install funcbench
 ```
 ## **Usage**
 
-First import the profiler function from the library:
+First import the benchmark function from the library:
 
 ```typescript
-import { profiler } from 'funcbench';
+import { benchmark } from 'funcbench';
 ```
-To create a new profiler, call the `profiler` function and chain the builder methods to configure it:
+To create a new benchmark, call the `benchmark` function and chain the builder methods to configure it:
 
 ```typescript
 const addNumbers = (a: number, b: number) => a + b
 
-const myProfiler = profiler<[number, number]>()
+const myBenchmark = benchmark<[number, number]>()
     .addFuncs(addNumbers)
     .addInputs({ name: '0 and 1', args: [0, 1] })
     .addSamples(100)
     .setUnits('ms')
     .build();
 ```
-You can also pass an optional configuration object to the `profiler` function for initial settings:
+You can also pass an optional configuration object to the `benchmark` function for initial settings:
 
 ```typescript
-const myProfiler = profiler<[number, number]>({
+const myBenchmark = benchmark<[number, number]>({
     functions: [addNumbers],
     inputs: [{ name: '0 and 1', args: [0, 1] }],
     samples: [100],
     units: 's'
 }).build();
 ```
-Then, run the profiler to get the results:
+Then, run the benchmark to get the results:
 
 ```javascript
-const results = myProfiler.run();
+const results = myBenchmark.run();
 ```
 The results variable will contain an array of performance statistics for each function, input, and sample size combination. 
 
@@ -65,19 +65,19 @@ Creates a new `Benchmark` object. The optional `BuilderOptions` object can be us
 | `samples`       | `Array<number>`         | The number of samples to run for each function and input combination.     |
 | `units`         | `'ns'` \| `'ms'` \| `'s'`                 | The time units to use for the results (e.g., `'ms'` for milliseconds). Defaults to `'ms'`      |
 
-### `Benchmark`
+### `BenchmarkBuilder`
 
-The profiler builder exposes several chainable methods for configuring the profiler:
+The builder builder exposes several chainable methods for configuring your test:
 
 | Method Name       | Parameters                                | Description                                                                               |
 |-------------------|-------------------------------------------|-------------------------------------------------------------------------------------------|
-| `addFuncs`          | `funcs: Function \| Function[]`             | Add one or more functions to the profiler.                                               |
-| `addInputs`         | `inputs: Input<Args> \| Input<Args>[]`      | Add one or more input argument sets to the profiler.                                     |
-| `addSamples`        | `samples: number \| number[]`               | Add one or more sample sizes to the profiler.                                            |
-| `removeFuncs`       | `indices: number \| number[]`               | Remove one or more functions from the profiler by their indices.                         |
-| `removeInputs`      | `indices: number \| number[]`               | Remove one or more input argument sets from the profiler by their indices.               |
-| `removeSamples`     | `indices: number \| number[]`               | Remove one or more sample sizes from the profiler by their indices.                      |
-| `run`         | `{ rank`: `boolean \| undefined, testCallback: (stats: Stats) => unknown \| unknown }`       | Runs the profiler and returns the results as a `BenchmarkResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
+| `addFuncs`          | `funcs: Function \| Function[]`             | Add one or more functions to the benchmark.                                               |
+| `addInputs`         | `inputs: Input<Args> \| Input<Args>[]`      | Add one or more input argument sets to the benchmark.                                     |
+| `addSamples`        | `samples: number \| number[]`               | Add one or more sample sizes to the benchmark.                                            |
+| `removeFuncs`       | `indices: number \| number[]`               | Remove one or more functions from the benchmark by their indices.                         |
+| `removeInputs`      | `indices: number \| number[]`               | Remove one or more input argument sets from the benchmark by their indices.               |
+| `removeSamples`     | `indices: number \| number[]`               | Remove one or more sample sizes from the benchmark by their indices.                      |
+| `run`         | `{ rank`: `boolean \| undefined, testCallback: (stats: Stats) => unknown \| unknown }`       | Runs the benchmark and returns the results as a `BenchmarkResult` object. If `rank` is true, then the resulting stats will be sorted with priority in the following order: sample size ascending, input name alphabetic sorting and then mean execution time. |
 | `setFuncs`          | `funcs: Function[]`                         | Set the functions to profile.                                                            |
 | `setInputs`         | `inputs: Input<Args>[]`                     | Set the input arguments for each function.                                               |
 | `setSamples`       | `samples: number[]`                         | Set the number of samples to run for each function and input combination.                |
