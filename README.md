@@ -30,8 +30,7 @@ const myBenchmark = benchmark<[number, number]>()
     .addFuncs(addNumbers)
     .addInputs({ name: '0 and 1', args: [0, 1] })
     .addSamples(100)
-    .setUnits('ms')
-    .build();
+    .setUnits('ms');
 ```
 You can also pass an optional configuration object to the `benchmark` function for initial settings:
 
@@ -41,7 +40,7 @@ const myBenchmark = benchmark<[number, number]>({
     inputs: [{ name: '0 and 1', args: [0, 1] }],
     samples: [100],
     units: 's'
-}).build();
+});
 ```
 Then, run the benchmark to get the results:
 
