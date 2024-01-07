@@ -99,4 +99,4 @@ An object that contains an array of `Stats` objects (one for each function/input
 
 ## **Contact**
 
-If you have any questions for me, feel free to contact me through [my website](https://www.davidjonesdev.com/contact).
+If you have any questions for me, feel free to contact me through [my website](https://david-allan-jones.github.io/personal-website/).
