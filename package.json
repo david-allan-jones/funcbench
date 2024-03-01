@@ -24,9 +24,12 @@
     "/dist"
   ],
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+	"test": "jest"
   }
 }
