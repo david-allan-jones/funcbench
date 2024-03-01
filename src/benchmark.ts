@@ -1,5 +1,5 @@
 import { Units, convertFromMilliseconds } from './utils/time'
-import { typeNarrowPush, typeNarrowRemove } from './utils/type'
+import { typeNarrowPush, typeNarrowRemove } from './utils/array'
 import {
     BuilderOptions,
     Func,
