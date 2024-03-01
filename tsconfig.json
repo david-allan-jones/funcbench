@@ -10,6 +10,6 @@
       "src/**/*"
     ],
     "typescript": {
-      "version": "4.5.4"
+      "version": "5.3.3"
     }
 }
