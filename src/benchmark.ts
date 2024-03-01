@@ -9,6 +9,7 @@ import {
   BenchmarkRunOptions,
 } from "./types/benchmark";
 import { statsSort } from "./utils/stats";
+import { performance } from "perf_hooks";
 
 const benchmark = <Args extends any[]>(
   options?: BuilderOptions<Args>,
