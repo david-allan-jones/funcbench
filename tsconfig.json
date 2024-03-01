@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "types": [
-	    "bun-types"
-    ],
-    "module": "commonjs",
-    "target": "es2015",
+    "module": "ESNext",
+    "target": "ESNext",
+	"moduleDetection": "force",
     "declaration": true,
     "outDir": "./dist",
-    "strict": true
+
+	// Strictness
+    "strict": true,
+	"skipLibCheck": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"],
   "typescript": {
     "version": "5.3.3"
   }

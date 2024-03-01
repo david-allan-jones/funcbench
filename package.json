@@ -8,6 +8,7 @@
   },
   "main": "dist/index.js",
   "devDependencies": {
+    "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },
   "bugs": {
@@ -27,7 +28,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "format": "prettier"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
