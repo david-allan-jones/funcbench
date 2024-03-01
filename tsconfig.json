@@ -1,15 +1,18 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "es2015",
-      "declaration": true,
-      "outDir": "./dist",
-      "strict": true
-    },
-    "include": [
-      "src/**/*"
-    ],
-    "typescript": {
-      "version": "5.3.3"
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+	"src/**/*.spec.ts"
+  ],
+  "typescript": {
+    "version": "5.3.3"
+  }
 }
