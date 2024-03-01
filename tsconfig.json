@@ -1,15 +1,18 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "es2015",
-      "declaration": true,
-      "outDir": "./dist",
-      "strict": true
-    },
-    "include": [
-      "src/**/*"
-    ],
-    "typescript": {
-      "version": "4.5.4"
-    }
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+	"moduleDetection": "force",
+    "declaration": true,
+    "outDir": "./dist",
+
+	// Strictness
+    "strict": true,
+	"skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"],
+  "typescript": {
+    "version": "5.3.3"
+  }
 }
