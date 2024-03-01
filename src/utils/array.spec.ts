@@ -1,4 +1,5 @@
 import { typeNarrowPush, typeNarrowRemove } from './array'
+import { describe, it, expect } from 'bun:test'
 
 describe('array utils', () => {
 	describe('typeNarrowPush', () => {

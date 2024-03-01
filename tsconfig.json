@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+	  "bun-types"
+    ],
     "module": "commonjs",
     "target": "es2015",
     "declaration": true,

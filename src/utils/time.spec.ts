@@ -1,4 +1,5 @@
 import { convertFromMilliseconds } from './time'
+import { describe, it, expect } from 'bun:test'
 
 describe('time', () => {
 	describe('convertFromMilliseconds', () => {
