@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "types": [
-	  "bun-types"
+	    "bun-types"
     ],
     "module": "commonjs",
     "target": "es2015",
@@ -13,7 +13,7 @@
     "src/**/*.ts"
   ],
   "exclude": [
-	"src/**/*.spec.ts"
+    "src/**/*.spec.ts"
   ],
   "typescript": {
     "version": "5.3.3"
