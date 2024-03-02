@@ -2,13 +2,13 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-	"moduleDetection": "force",
+    "moduleDetection": "force",
     "declaration": true,
     "outDir": "./dist",
 
-	// Strictness
+    // Strictness
     "strict": true,
-	"skipLibCheck": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts"],

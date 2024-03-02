@@ -28,7 +28,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "format": "prettier"
+    "format": "prettier . --write"
   },
   "types": "dist/index.d.ts",
   "dependencies": {
